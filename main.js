@@ -4,7 +4,6 @@ let itemList=document.getElementById('items');
 //form submit event:
 form.addEventListener('submit',addItem);
 
-//Q-1) On clicking the delete button we should be able to remove the newly created li tag:
 //delete item event:
 itemList.addEventListener('click',removeItem);
 
@@ -18,6 +17,8 @@ function addItem(e){
     let newItem=document.getElementById('item').value;
     // console.log(newItem);
 
+    let newItem2=document.getElementById('discription').value;
+
     //create new li element
     let li=document.createElement('li');
 
@@ -25,6 +26,8 @@ function addItem(e){
     li.className='list-group-item';
     //add text node with input value
     li.appendChild(document.createTextNode(newItem));
+    li.appendChild(document.createTextNode(" "));
+    li.appendChild(document.createTextNode(newItem2));
     itemList.appendChild(li);
 
     //add delete button
@@ -51,10 +54,9 @@ function removeItem(e){
         }
 
     }
-    console.log("hi");
 }
 
-//Q-2) Now add an edit button next to the delete icon.
+//add an edit button next to the delete icon.
 function createBtn(li){
     let editBtn=document.createElement('button');
     editBtn.className='btn btn-danger btn-sm float-right';
@@ -63,10 +65,10 @@ function createBtn(li){
     editBtn.appendChild(document.createTextNode('Edit'));
     li.appendChild(editBtn);
     itemList.appendChild(li);
-    console.log(1);
+    // console.log(1);
 }
 
-console.log(document.getElementsByTagName('li'));
+// console.log(document.getElementsByTagName('li'));
 let liTag=document.getElementsByTagName('li');
 
 for(let i=0; i<liTag.length; i++){
@@ -74,8 +76,50 @@ for(let i=0; i<liTag.length; i++){
 }
 
 //=============================================================
+// task-9
+//Q-1) When we type on the input box show me those items from the list which match my search string.
+let filter=document.getElementById('filter');
+
+//filter item event;
+filter.addEventListener("keyup",filterItems);
+
+//filter items;
+
+//Q-4)check both the name of the item and the description. If search string is found in any place show the item.
+function filterItems(e){
+    //convert everything to lowercase for easy selection
+    let text = e.target.value.toLowerCase();
+    // console.log(text);
+    const items = itemList.querySelectorAll('.list-group-item');
+    // console.log(items);
+    Array.from(items).forEach(function(item){
+        let itemName = item.firstChild.textContent;
+        // console.log(itemName);
+        let itemName2 = item.childNodes[2].textContent;
+        // console.log(itemDes);
+        if((itemName.toLowerCase().indexOf(text) != -1) || (itemName2.toLowerCase().indexOf(text) != -1)){
+            item.style.display = 'block';
+        }else{
+            item.style.display = 'none';
+        }
+    })
+}
 
 
 
 
+//Q-2) Now go ahead and take description of the item too in the input box where you are creating the item.
+//create a input
+let input=document.createElement('input');
+input.className= 'form-control mr-2';
+input.type='text';
+input.id= 'discription';
+console.log(input);
+
+//set input in form before submit.
+let bag=document.getElementById('addForm');
+let last=document.getElementById('item_2');
+bag.insertBefore(input,last);
+
+//============================================================
 
